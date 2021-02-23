@@ -5,6 +5,14 @@ const express = require("express"),
 //Api var
 const RecipeApi = require('./recipeapi')
 
+
+const corsOptions = {
+    origin: 'https://refinder-frontend.herokuapp.com/',
+    optionsSuccessStatus: 200 
+  }
+
+app.use(cors(corsOptions))
+
 //Search by ingredients
 app.get("/", function (req, res) {
     //Ingredients and number of recipes to be displayed from angular service
