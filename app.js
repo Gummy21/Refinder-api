@@ -11,7 +11,7 @@ const corsOptions = {
     optionsSuccessStatus: 200 
   }
 
-app.use(cors(corsOptions))
+app.use(cors())
 
 //Search by ingredients
 app.get("/", function (req, res) {
