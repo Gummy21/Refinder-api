@@ -38,10 +38,8 @@ app.get("/", function (req, res) {
             });
 
         } catch (error) {
-            const { response } = error;
-            const { request, ...errorObject } = response;
-            res.status(404).json({ msg: "Something went wrong", details: errorObject['data'] });
-            console.log(errorObject)
+            res.status(404).json({ msg: "Something went wrong", details: error['data'] });
+            console.log(error)
         }
 
     }
