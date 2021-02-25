@@ -12,7 +12,7 @@ const corsOptions = {
   }
 
 app.use(cors())
-
+app.use(express.json())
 
 //Search by ingredients
 app.get("/", function (req, res) {
