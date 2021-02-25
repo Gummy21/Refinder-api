@@ -13,6 +13,7 @@ const corsOptions = {
 
 app.use(cors())
 
+
 //Search by ingredients
 app.get("/", function (req, res) {
     //Ingredients and number of recipes to be displayed from angular service
