@@ -36,7 +36,10 @@ module.exports = {
     }),
     getRecipe: (query) => axios ({
         method:"GET",
-        url: process.env.BASE_URL + `/recipes/${query.id}/information`,
+        url: process.env.BASE_URL + `/recipes/informationBulk`,
+        params:{
+            "ids": `${query.id}`
+        },
         headers: {
             "content-type":"application/x-www-form-urlencoded",
             "x-rapidapi-host":"spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
