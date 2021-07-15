@@ -1,8 +1,8 @@
-const axios = require("axios");
+const got = require("got");
 require('dotenv').config();
 
 module.exports = {
-    getRecipesByIngre: (query) => axios({
+    getRecipesByIngre: (query) => got({
         method:"GET",
         url : process.env.BASE_URL + `/recipes/findByIngredients`,
         headers: {
@@ -10,13 +10,13 @@ module.exports = {
             "x-rapidapi-host":"spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
             "x-rapidapi-key": process.env.RAPIDAPI_KEY
         },
-        params: {
+        searchParams: {
             "ingredients": query.ingredients,
             "number": query.number
         }
     }),
 
-    getRecipes: (query) => axios ({
+    getRecipes: (query) => got ({
         method:"GET",
         url: process.env.BASE_URL + `/recipes/search`,
         headers: {
@@ -24,7 +24,7 @@ module.exports = {
             "x-rapidapi-host":"spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
             "x-rapidapi-key": process.env.RAPIDAPI_KEY
         },
-        params: {
+        searchParams: {
             "query": query.main,
             "number": query.number,
             "diet": query.diet,
@@ -34,10 +34,10 @@ module.exports = {
 
         }
     }),
-    getRecipe: (query) => axios ({
+    getRecipe: (query) => got ({
         method:"GET",
         url: process.env.BASE_URL + `/recipes/informationBulk`,
-        params:{
+        searchParams:{
             "ids": `${query.id}`
         },
         headers: {

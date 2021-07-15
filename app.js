@@ -24,19 +24,16 @@ app.get("/", function (req, res) {
         try {
 
             const response = await RecipeApi.getRecipesByIngre(query)
-            var recipes = response['data'];
+            const recipes = response['data'];
             if (Array.isArray(recipes) && recipes.length) {
-                res.send(recipes)
+                res.send(JSON.parse(recipes))
             }
             else {
-                res.status(404).json({ msg: "We couldn't find any recipes with those ingredients" });
+                res.status(404).json({ error: "We couldn't find any recipes with those ingredients" });
+                return
             }
-            recipes.forEach(function (recipe) {
-                console.log(recipe['title'])
-            });
-
         } catch (error) {
-            res.status(404).json({ msg: "Something went wrong", details: error['data'] });
+            res.status(404).json({ err: "Something went wrong", details: error['data'] });
             console.log(error)
         }
 
@@ -54,15 +51,21 @@ app.get("/search", function (req, res) {
         query = { number: number, main: main, diet: diet, intol: intol, exclude: exclude };
     
     const asyncApiCall = async () => {
-        const response = await RecipeApi.getRecipes(query)
-        var recipes = response['data'];
+        try{
+            const response = await RecipeApi.getRecipes(query)
+            const recipes = response['data'];
 
-        let test = recipes['results']
-        if (Array.isArray(test) && test.length) {
-            res.send(recipes['results'])
+            let test = recipes['results']
+            if (Array.isArray(test) && test.length) {
+                res.send(JSON.parse(recipes['results']))
+            }
+            else {
+                res.status(404).json({ msg: "We couldn't find any recipes with those parameters" });
+            }
         }
-        else {
-            res.status(404).json({ msg: "We couldn't find any recipes with those parameters" });
+        catch (error) {
+        res.status(404).json({ msg: "Something went wrong", details: error['data'] });
+        console.log(error)
         }
     }
     asyncApiCall()
@@ -73,9 +76,17 @@ app.get("/:id", function (req, res) {
     const query = { id: req.params.id }
 
     const asyncApiCall = async () => {
+        try{
+       
         const response = await RecipeApi.getRecipe(query)
-        var recipes = response['data'];
+
+        var recipes = JSON.parse(response['body']);
+        console.log(recipes)
         res.send(recipes)
+        } catch (error) {
+            res.status(404).json({ msg: "Something went wrong", details: error['data'] });
+            console.log(error)
+        }
     }
     asyncApiCall()
 
