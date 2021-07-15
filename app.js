@@ -24,9 +24,10 @@ app.get("/", function (req, res) {
         try {
 
             const response = await RecipeApi.getRecipesByIngre(query)
-            const recipes = response['data'];
-            if (Array.isArray(recipes) && recipes.length) {
-                res.send(JSON.parse(recipes))
+            const recipes = JSON.parse(response['body']);
+            
+            if (Array.isArray(recipes["results"]) && recipes["results"].length) {
+                res.send(recipes["results"])
             }
             else {
                 res.status(404).json({ error: "We couldn't find any recipes with those ingredients" });
@@ -53,11 +54,12 @@ app.get("/search", function (req, res) {
     const asyncApiCall = async () => {
         try{
             const response = await RecipeApi.getRecipes(query)
-            const recipes = response['data'];
+            const recipes = JSON.parse(response['body']);
 
-            let test = recipes['results']
-            if (Array.isArray(test) && test.length) {
-                res.send(JSON.parse(recipes['results']))
+          
+            console.log(recipes["results"])
+            if (Array.isArray(recipes["results"]) && recipes["results"].length) {
+                res.send(recipes["results"])
             }
             else {
                 res.status(404).json({ msg: "We couldn't find any recipes with those parameters" });
